@@ -1,0 +1,15 @@
+version: '3'
+services:
+  envoy:
+    image: envoyproxy/envoy:latest
+    container_name: envoyproxy
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+      #- ./key:/key
+      #- ./pem:/pem
+    ports:
+      - "80:80"
+      - "443:443"
+    expose:
+      - "80"
+      - "443"
