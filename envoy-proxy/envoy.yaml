@@ -1,30 +1,5 @@
 static_resources:
   listeners:
-  - name: http
-    address:
-      socket_address: { address: 0.0.0.0, port_value: 80 }
-
-    filter_chains:
-    - filters:
-      - name: envoy.http_connection_manager
-        config:
-          codec_type: auto
-          stat_prefix: ingress_http
-          route_config:
-            virtual_hosts:
-            - name: backend
-              domains:
-              - "example.com.tw"
-              require_tls: ALL
-              routes:
-              - match:
-                  prefix: "/"
-                redirect:
-                  path_redirect: "/"
-                  https_redirect: true
-          http_filters:
-          - name: envoy.router
-            config: {}
   - name: https
     address:
       socket_address: { address: 0.0.0.0, port_value: 443 }
@@ -45,10 +20,10 @@ static_resources:
           route_config:
             name: local_route
             virtual_hosts:
-            - name: local_service
+            - name: backend
               domains:
                 - "example.com.tw"
-              routes:
+              route:
               - match:
                   prefix: "/"
                 route:
@@ -62,7 +37,16 @@ static_resources:
     type: STRICT_DNS
     dns_lookup_family: V4_ONLY
     lb_policy: ROUND_ROBIN
+    tls_context:
+      common_tls_context:
     hosts: [
-      { socket_address: { address: 1.2.3.4, port_value: 8086 }},
-      { socket_address: { address: 5.6.7.8, port_value: 8086 }}
+      { socket_address: { address: 1.2.3.4, port_value: 8443 }},
+      { socket_address: { address: 5.6.7.8, port_value: 8443 }}
     ]
+
+admin:
+  access_log_path: /tmp/admin_access.log
+  address:
+    socket_address:
+      address: 0.0.0.0
+      port_value: 10000
