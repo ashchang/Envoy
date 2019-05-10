@@ -7,9 +7,10 @@ services:
       - ./envoy.yaml:/etc/envoy/envoy.yaml
       #- ./key:/key
       #- ./pem:/pem
+      - ./envoy.log:/var/log/envoy.log
     ports:
-      - "80:80"
       - "443:443"
+      - "10000:10000"
     expose:
-      - "80"
       - "443"
+      - "10000"
