@@ -31,6 +31,10 @@ static_resources:
           http_filters:
             - name: envoy.router
               typed_config: {}
+          access_log:
+            - name: envoy.file_access_log
+              config:
+                path: /var/log/envoy.log
   clusters:
   - name: targetCluster
     connect_timeout: 0.25s
