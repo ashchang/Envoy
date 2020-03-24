@@ -1,2 +1,2 @@
 # Envoy
-Envoyとういう物の色々設定、DOCKERだけど
+Envoyという物の色々設定、DOCKERだけど
